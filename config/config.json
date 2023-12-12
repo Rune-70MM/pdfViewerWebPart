@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "pdf-viewer-webpart-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/pdfViewerWebpart/PdfViewerWebpartWebPart.js",
+          "manifest": "./src/webparts/pdfViewerWebpart/PdfViewerWebpartWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "PdfViewerWebpartWebPartStrings": "lib/webparts/pdfViewerWebpart/loc/{locale}.js"
+  }
+}

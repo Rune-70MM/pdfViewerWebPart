@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "pdf-viewer-webpart-client-side-solution",
+    "id": "15bb623f-50d7-4dc3-9205-0f69bfda66ad",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "pdf-viewer-webpart description"
+      },
+      "longDescription": {
+        "default": "pdf-viewer-webpart description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "pdf-viewer-webpart Feature",
+        "description": "The feature that activates elements of the pdf-viewer-webpart solution.",
+        "id": "7f2c1ab8-0675-43ab-8ea3-8e7b3aad2183",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/pdf-viewer-webpart.sppkg"
+  }
+}
