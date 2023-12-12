@@ -96,7 +96,7 @@ export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartP
       const formIsNotValid = (): boolean =>
       {
 
-        if(!this.state.listitem.Owner)// || !this.state.listitem.InvoiceCategory || !this.state.listitem.Status)
+        if(!this.state.listitem.Title || !this.state.listitem.Category || !this.state.listitem.Status)
         return true;
 
 /*      So  schaut es einzeln geschrieben aus, man kann es auch wie oben zusammenfassen
