@@ -57,11 +57,18 @@ export class DataAccessService implements IDataAccessService
             
             entity.Title = item.Title;
             entity.Id = parseInt(item.Id);
-
-            
-            entity.Owner = item.Owner;
+                        
             entity.Category = item.Category;
             entity.Status = item.Status;
+            
+            const Owner = item.Owner;
+
+            if (Owner)
+            {
+                entity.Owner.Title = Owner.Title;
+                entity.Owner.Id = parseInt(Owner.Id);
+                entity.Owner.Email = Owner.Email;
+            }
 
             return entity;
         } catch (error) 

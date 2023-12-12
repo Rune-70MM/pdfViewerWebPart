@@ -1,6 +1,6 @@
 export class Person
 {
-    public Id: string = '';
+    public Id: number;
 
     public Title: string = '';
 

@@ -3,13 +3,15 @@
 /* eslint-disable @microsoft/spfx/no-async-await */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable react/jsx-no-bind */
-
-import * as React from 'react';
 //import styles from './PdfViewerWebpart.module.scss';
-import { IPdfDataAccessState, IPdfViewerWebpartProps } from './IPdfViewerWebpartProps';
-//import { escape } from '@microsoft/sp-lodash-subset';
-import { PdfViewerEntity } from '../../../sp/entities/pdf-viewer-webpart';
 
+//import { escape } from '@microsoft/sp-lodash-subset';
+
+//import { PrincipalType } from '@pnp/sp';
+//import { PeoplePicker } from '@pnp/spfx-controls-react/lib/PeoplePicker';
+import * as React from 'react';
+import { IPdfDataAccessState, IPdfViewerWebpartProps } from './IPdfViewerWebpartProps';
+import { PdfViewerEntity } from '../../../sp/entities/pdf-viewer-webpart';
 import { TextField, /*ChoiceGroup, Dropdown, IChoiceGroupOption, IDropdownOption, PrimaryButton*/ } from '@fluentui/react';
 import { Stack, /*IStackStyles, IStackTokens*/} from '@fluentui/react/lib/Stack';
 import { IStackStyles, IStackTokens, Icon, PrimaryButton, Spinner, SpinnerSize } from 'office-ui-fabric-react';
@@ -135,17 +137,47 @@ export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartP
                     }
                   });
                 }}/>
-              <TextField label='Title' value={this.state.listitem.Title} onChange={(event, newValue) => 
+              {/*
+              <PeoplePicker context={this.props.context as any}
+                titleText="User"
+                personalSelectionLimit={1}
+                showtooltip
+                required
+                defaultSelectedUsers={[this.state.listitem.Owner.Email ? this.state.listitem.Owner.Email : '']}
+                onchange={(items: any[]) =>
+                  {
+                    let updatedListItem = { ...this.state.listitem};
+
+                    if (items.length > 0 )
+                    {
+                      const Owner = new Person();
+                      Owner.Email = items[0].secondaryText;
+                      Owner.Title = items [0].text;
+
+                      updatedListItem.Owner = Owner;
+                     
+                    }
+                    else
+                    {
+                      updatedListItem.Owner = new Person();
+                    }
+                  this.state({ listItem: updatedListItem });
+
+                  }}
+                  principalTypes={[PrincipalType.User]}
+                  resolveDelay={1000}
+               
+              <TextField label='Owner' value={this.state.listitem.Owner.Title} onChange={(event, newValue) => 
                   { 
                   this.setState({
                     ...this.state,
                     listitem:{
                         ...this.state.listitem,
-                        Title: newValue
+                        Owner:[...this.state.listitem.Owner, ]
                     }
                   });
                 }}/>
-                  
+              */}  
                 <TextField label='Category' value={this.state.listitem.Category} onChange={(event, newValue) => 
                   { 
                   this.setState({
@@ -242,7 +274,7 @@ export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartP
         </object> */}
       </span>
         <Stack horizontal horizontalAlign='end'>
-            <PrimaryButton text='Save' 
+            <PrimaryButton  
             
             disabled={formIsNotValid() || this.state.saving}
             onClick={async () =>
@@ -289,7 +321,52 @@ export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartP
         </Stack>
 
    </Stack> 
-   
+   <Stack>
+            <PrimaryButton
+            
+            disabled={formIsNotValid() || this.state.saving}
+            onClick={async () =>
+            {
+                try
+                {
+
+                  this.setState({
+                    saving:true
+                  }, async ()=>{
+                      //call service to add item
+                    
+                    const listItemId = await this.props.dataService.addItem(this.state.listitem);
+
+                    const allItems = await this.props.dataService.getAll();
+                    listItemId;
+                    this.setState({
+                        saving: false,
+                        allItems,
+                        
+                    });
+                                       
+                      /* Nicht weiter benutzt
+                      setTimeout(() => {
+                        console.log('demo')
+                      }, 1000);
+                    */
+                      this.setState({ saving: false });
+                  })
+
+                }catch (F)
+                  {
+                      alert('Unable to save the data');
+                  }
+                    }}
+                >
+              <Stack horizontal tokens={{ childrenGap: 5}}>
+                {this.state.saving && <Spinner size={SpinnerSize.small}/>}
+                {!this.state.saving && <Icon iconName='Save'/>}
+                
+                <span>Save</span>
+              </Stack>
+            </PrimaryButton>
+        </Stack>
   </>)
   }
 }
