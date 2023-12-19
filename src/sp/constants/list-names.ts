@@ -9,4 +9,8 @@ export default class Lists
         Name: 'Documents',
         Url: 'Documents',
     }
+    public static readonly DavidList = {
+        Name: 'TestDavid',
+        Url: 'TestDavid',
+    }
 }

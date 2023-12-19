@@ -11,7 +11,7 @@ import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import "@pnp/sp/batching";
 import Lists from "../constants/list-names";
-//import FieldName from "../constants/list-field-names";
+import FieldName from "../constants/list-field-names";
 
 
 
@@ -25,12 +25,7 @@ export interface IDataAccessService
 
     updateItem(entity: PdfViewerEntity): Promise<boolean>;
 }
-/*
-const testTitle: string = 'TestVomWebpart';
-const testOwner: string = 'David';
-const testCategory: string = 'Testen';
-const testStatus: string = 'Done';
-*/
+
 export class DataAccessService implements IDataAccessService
 {
 
@@ -49,33 +44,6 @@ export class DataAccessService implements IDataAccessService
         })
     }
 
-    private mapToEntity(item: any): PdfViewerEntity
-    {
-        try 
-        {
-            const entity = new PdfViewerEntity();
-            
-            entity.Title = item.Title;
-            entity.Id = parseInt(item.Id);
-                        
-            entity.Category = item.Category;
-            entity.Status = item.Status;
-            
-            const Owner = item.Owner;
-
-            if (Owner)
-            {
-                entity.Owner.Title = Owner.Title;
-                entity.Owner.Id = parseInt(Owner.Id);
-                entity.Owner.Email = Owner.Email;
-            }
-
-            return entity;
-        } catch (error) 
-        {   
-        }
-    }
-
     public async getAll(): Promise<PdfViewerEntity[]> 
     {
        try 
@@ -91,7 +59,7 @@ export class DataAccessService implements IDataAccessService
         {
             const item = items[index];
 
-            const entity = this.mapToEntity(item);
+            const entity = this.mapToListItem(item);
 
             result.push(entity);
         } 
@@ -109,12 +77,12 @@ export class DataAccessService implements IDataAccessService
     {
         throw new Error("Method not implemented.");
     }
-/*
+
     private mapToListItem(entity: PdfViewerEntity): any
     {
         try
         {
-        const properties = {};
+        const properties: any = {};
 
         properties[FieldName.Invoices.Title] = entity.Title;
         properties[FieldName.Invoices.Id] = entity.Id;
@@ -126,11 +94,11 @@ export class DataAccessService implements IDataAccessService
         }catch (error)
         {}
     }
-*/
+
 public async addItem(entity: PdfViewerEntity): Promise<number> 
 {
     try {
-        const iar: IItemAddResult = await this._sp.web.lists.getByTitle("TestDavid").items.add({
+        const iar: IItemAddResult = await this._sp.web.lists.getByTitle(Lists.DavidList.Name).items.add({
             Title: entity.Title, // testTitle, //
             //Owner: entity.Owner, // testOwner, //
             Category: entity.Category, // testCategory, //
