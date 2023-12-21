@@ -11,7 +11,7 @@ import { PdfViewerEntity } from '../../../sp/entities/pdf-viewer-webpart';
 import { TextField, /*ChoiceGroup, Dropdown, IChoiceGroupOption, IDropdownOption, PrimaryButton*/ } from '@fluentui/react';
 import { Stack, /*IStackStyles, IStackTokens*/ } from '@fluentui/react/lib/Stack';
 import { IStackStyles, IStackTokens, Icon, PrimaryButton, Spinner, SpinnerSize } from 'office-ui-fabric-react';
-
+import "./workbench.css"
 
 const stackStyles: IStackStyles = {
   root: {
@@ -32,7 +32,8 @@ const textfieldSpacingStackTokens: IStackTokens = {
 
 export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartProps, IPdfDataAccessState> {
 
-  public constructor(props: IPdfViewerWebpartProps) {
+  public constructor(props: IPdfViewerWebpartProps)
+  {
     super(props);
 
     this.state = {
@@ -42,8 +43,10 @@ export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartP
     }
   }
 
-  async componentDidMount() {
-    try {
+  async componentDidMount()
+  {
+    try
+    {
 
       const listItems: PdfViewerEntity[] = await this.props.dataService.getAll();
 
@@ -51,15 +54,18 @@ export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartP
         allItems: listItems
       });
 
-    } catch (error) {
+    } catch (error)
+    {
 
     }
   }
 
 
-  public render(): React.ReactElement<IPdfViewerWebpartProps> {
+  public render(): React.ReactElement<IPdfViewerWebpartProps>
+  {
 
-    const formIsNotValid = (): boolean => {
+    const formIsNotValid = (): boolean =>
+    {
 
       if (!this.state.listitem.Title || !this.state.listitem.Category || !this.state.listitem.Status)
         return true;
@@ -72,7 +78,8 @@ export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartP
           <span>
             <Stack styles={stackStyles} tokens={textfieldSpacingStackTokens}>
               <Stack tokens={{ childrenGap: 10 }}>
-                <TextField label='Title' value={this.state.listitem.Title} onChange={(event, newValue) => {
+                <TextField label='Title' value={this.state.listitem.Title} onChange={(event, newValue) =>
+                {
                   this.setState({
                     ...this.state,
                     listitem: {
@@ -122,7 +129,8 @@ export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartP
                   });
                 }}/>
               */}
-                <TextField label='Category' value={this.state.listitem.Category} onChange={(event, newValue) => {
+                <TextField label='Category' value={this.state.listitem.Category} onChange={(event, newValue) =>
+                {
                   this.setState({
                     ...this.state,
                     listitem: {
@@ -131,7 +139,8 @@ export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartP
                     }
                   });
                 }} />
-                <TextField label='Status' value={this.state.listitem.Status} onChange={(event, newValue) => {
+                <TextField label='Status' value={this.state.listitem.Status} onChange={(event, newValue) =>
+                {
                   this.setState({
                     ...this.state,
                     listitem: {
@@ -161,12 +170,15 @@ export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartP
             <PrimaryButton
 
               disabled={formIsNotValid() || this.state.saving}
-              onClick={async () => {
-                try {
+              onClick={async () =>
+              {
+                try
+                {
 
                   this.setState({
                     saving: true
-                  }, async () => {
+                  }, async () =>
+                  {
                     //call service to add item
 
                     const listItemId = await this.props.dataService.addItem(this.state.listitem);
@@ -187,7 +199,8 @@ export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartP
                     this.setState({ saving: false });
                   })
 
-                } catch (F) {
+                } catch (F)
+                {
                   alert('Unable to save the data');
                 }
               }}
@@ -206,12 +219,15 @@ export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartP
           <PrimaryButton
 
             disabled={formIsNotValid() || this.state.saving}
-            onClick={async () => {
-              try {
+            onClick={async () =>
+            {
+              try
+              {
 
                 this.setState({
                   saving: true
-                }, async () => {
+                }, async () =>
+                {
                   //call service to add item
 
                   const listItemId = await this.props.dataService.addItem(this.state.listitem);
@@ -226,7 +242,8 @@ export default class PdfViewerWebpart extends React.Component<IPdfViewerWebpartP
                   this.setState({ saving: false });
                 })
 
-              } catch (F) {
+              } catch (F)
+              {
                 alert('Unable to save the data');
               }
             }}

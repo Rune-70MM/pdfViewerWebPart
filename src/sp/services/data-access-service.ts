@@ -13,11 +13,9 @@ import "@pnp/sp/batching";
 import Lists from "../constants/list-names";
 import FieldName from "../constants/list-field-names";
 
-
-
 export interface IDataAccessService
 {
-    getAll():Promise<Array<PdfViewerEntity>>;
+    getAll(): Promise<Array<PdfViewerEntity>>;
 
     getById(listItemId: number): Promise<PdfViewerEntity>;
 
@@ -29,16 +27,16 @@ export interface IDataAccessService
 export class DataAccessService implements IDataAccessService
 {
 
-    public static readonly serviceKey:ServiceKey<IDataAccessService> = ServiceKey.create('MF:DataAccessService', DataAccessService)
+    public static readonly serviceKey: ServiceKey<IDataAccessService> = ServiceKey.create('MF:DataAccessService', DataAccessService)
 
     private _sp: SPFI;
 
     public constructor(serviceScope: ServiceScope)
     {
-        serviceScope.whenFinished(()=>
+        serviceScope.whenFinished(() =>
         {
             const pageContext = serviceScope.consume(PageContext.serviceKey);
-            
+
             this._sp = spfi().using(SPFx({ pageContext }));
 
         })
@@ -46,32 +44,33 @@ export class DataAccessService implements IDataAccessService
 
     public async getAll(): Promise<PdfViewerEntity[]> 
     {
-       try 
-       {
-        let result = new Array<PdfViewerEntity>();
-        
-        //const items = await this._sp.web.lists.getById("8A423C53-90E0-4071-B202-9DD1296290B9").items();
-        const items = await this._sp.web.lists.getByTitle(Lists.Invoices.Name).items();
-
-        console.log('List Items;', items);
-
-        for (let index = 0; index < items.length; index++)
+        try 
         {
-            const item = items[index];
+            let result = new Array<PdfViewerEntity>();
 
-            const entity = this.mapToListItem(item);
+            //const items = await this._sp.web.lists.getById("8A423C53-90E0-4071-B202-9DD1296290B9").items();
+            const items = await this._sp.web.lists.getByTitle(Lists.Invoices.Name).items();
 
-            result.push(entity);
-        } 
+            console.log('List Items;', items);
 
-        
-        debugger;
+            for (let index = 0; index < items.length; index++)
+            {
+                const item = items[index];
 
-        return result;
-       } catch (error) {
-        
-        debugger;
-       }
+                const entity = this.mapToListItem(item);
+
+                result.push(entity);
+            }
+
+
+            debugger;
+
+            return result;
+        } catch (error)
+        {
+
+            debugger;
+        }
     }
     public async getById(listItemId: number): Promise<PdfViewerEntity> 
     {
@@ -82,39 +81,41 @@ export class DataAccessService implements IDataAccessService
     {
         try
         {
-        const properties: any = {};
+            const properties: any = {};
 
-        properties[FieldName.Invoices.Title] = entity.Title;
-        properties[FieldName.Invoices.Id] = entity.Id;
-        properties[FieldName.Invoices.Owner] = entity.Owner;
-        properties[FieldName.Invoices.Category] = entity.Category;
-        properties[FieldName.Invoices.Status] = entity.Status;
+            properties[FieldName.Invoices.Title] = entity.Title;
+            properties[FieldName.Invoices.Id] = entity.Id;
+            properties[FieldName.Invoices.Owner] = entity.Owner;
+            properties[FieldName.Invoices.Category] = entity.Category;
+            properties[FieldName.Invoices.Status] = entity.Status;
 
-        return properties;
-        }catch (error)
-        {}
+            return properties;
+        } catch (error)
+        { }
     }
 
-public async addItem(entity: PdfViewerEntity): Promise<number> 
-{
-    try {
-        const iar: IItemAddResult = await this._sp.web.lists.getByTitle(Lists.DavidList.Name).items.add({
-            Title: entity.Title, // testTitle, //
-            //Owner: entity.Owner, // testOwner, //
-            Category: entity.Category, // testCategory, //
-            Status: entity.Status, // testStatus, //
-          });
-          
-          debugger;
-        return iar.data.Id;
-    } catch (error) {
-        console.error(error);
-        debugger;
+    public async addItem(entity: PdfViewerEntity): Promise<number> 
+    {
+        try
+        {
+            const iar: IItemAddResult = await this._sp.web.lists.getByTitle(Lists.DavidList.Name).items.add({
+                Title: entity.Title, // testTitle, //
+                //Owner: entity.Owner, // testOwner, //
+                Category: entity.Category, // testCategory, //
+                Status: entity.Status, // testStatus, //
+            });
+
+            debugger;
+            return iar.data.Id;
+        } catch (error)
+        {
+            console.error(error);
+            debugger;
+        }
     }
-}
     public async updateItem(entity: PdfViewerEntity): Promise<boolean> 
     {
         throw new Error("Method not implemented.");
     }
-    
+
 }

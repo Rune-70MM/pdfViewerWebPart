@@ -1,0 +1,8 @@
+#workbenchPageContent {
+    max-width: 100%;
+    min-width: 100%;
+}
+
+.CanvasComponent.LCS .CanvasZone {
+    max-width: 100% !important;
+}
